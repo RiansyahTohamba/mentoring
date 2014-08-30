@@ -1,0 +1,51 @@
+.nav-user{
+    background-repeat: no-repeat;
+    background-image: none;
+    border-radius:0;
+    box-shadow: none;
+    border: none;
+    background-color: #61AE24;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    
+
+
+}
+
+.lengkung{
+    border: 10px;
+}
+.mar{
+    margin-top: 30px;
+}
+.flat{
+    background-image: none;
+    background-repeat: no-repeat;
+    box-shadow: none;
+    border-radius: 0;
+    margin-left: 0;
+}
+.mar-left{
+    padding-left: 30px;
+    margin-top: 5px;
+
+}
+.span-col{
+    background-color:#dbd8d8 ;
+}
+
+.nav-list .active a,.nav-list .active a:hover, .nav-list .active a:focus{
+    background-color: #ffffff;
+    color: black;
+}
+.nav-list a{
+    color : black;
+}
+
+.nav-list .active a .icon-home, .nav-list .active a .icon-user, .nav-list .active a .icon-calendar, .nav-list .active a .icon-check, .nav-list .active a .icon-list-alt, .nav-list .active a .icon-comment{
+    background-image: url("../img/glyphicons-halflings.png");
+}
+.mar-right{
+    padding-right: 30px;
+}
+    
