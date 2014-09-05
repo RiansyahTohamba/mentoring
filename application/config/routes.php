@@ -39,7 +39,7 @@
 |
 */
 
-$route['default_controller'] = "akun/index";//untuk halaman login
+$route['default_controller'] = "c_loginPeserta";//untuk halaman login
 $route['404_override'] = '';
 
 /* grocery crud tidak memudahkan kita untuk membuat routes
@@ -53,27 +53,43 @@ $route['404_override'] = '';
 //$route['berita'] = 'berita_controller/index';
 //$route['penulis'] = 'penulis_controller/index';
 
+$route['peserta/login'] = 'c_loginPeserta';
+$route['ceklogin'] = "c_loginPeserta/ceklogin";
+$route['peserta/ceklogin'] = "c_loginPeserta/ceklogin";
+$route['peserta/logout'] = 'c_loginPeserta/logout';
 
-$route['peserta'] = 'peserta_controller/index';
-$route['peserta/news'] = 'peserta_controller/news';
-$route['peserta/profile'] = 'peserta_controller/profile';
-$route['peserta/profile/editprofile'] = 'peserta_controller/edit_profile';
-$route['peserta/jadwal'] = 'peserta_controller/jadwal';
-$route['peserta/ambiljadwal/:num'] = 'peserta_controller/add_jadwal';
-$route['peserta/absensi'] = 'peserta_controller/absensi';
-$route['peserta/nilai'] = 'peserta_controller/nilai';
-$route['peserta/evaluasi'] = 'peserta_controller/evaluasi';
+
+$route['peserta'] = 'c_peserta/index';
+$route['peserta/news'] = 'c_peserta/news';
+$route['peserta/profile'] = 'c_peserta/profile';
+$route['peserta/profile/editprofile'] = 'c_peserta/edit_profile';
+$route['peserta/jadwal'] = 'c_peserta/jadwal';
+$route['peserta/ambiljadwal/:num'] = 'c_peserta/add_jadwal';
+$route['peserta/absensi'] = 'c_peserta/absensi';
+$route['peserta/nilai'] = 'c_peserta/nilai';
+$route['peserta/evaluasi'] = 'c_peserta/evaluasi';
 
 
 $route['panitia/login'] = "c_loginPanitia";
+$route['panitia/ceklogin'] = "c_loginPanitia/ceklogin";
 $route['panitia/logout'] = "c_loginPanitia/logout";
 
+//nanti, lakukan penguban nama untuk semua url admin/..
+$route['panitia'] = "c_Admin/index";
 $route['admin'] = "c_Admin/index";
 
 $route['admin/news'] = "c_Admin/news";
 
 $route['admin/pengajar'] = "c_Admin/pengajar";
+
 $route['admin/pengajar/tambah/:any'] = "c_Admin/add_pengajar";
+$route['admin/pengajar/notiftambah/sukses'] = "c_Admin/pengajar";
+$route['admin/pengajar/notiftambah/gagal'] = "c_Admin/pengajar";
+
+
+$route['admin/pengajar/hapus/:any'] = "c_Admin/delete_pengajar";
+$route['admin/pengajar/notifhapus/sukses'] = "c_Admin/pengajar";
+$route['admin/pengajar/notifhapus/gagal'] = "c_Admin/pengajar";
 
 $route['admin/mahasiswa'] = "c_Admin/mhs";
 $route['admin/hapusmahasiswa/:any'] = "c_Admin/Deletemhs/";
@@ -90,7 +106,7 @@ $route['admin/panitia/tambah/:any'] = "c_Admin/add_panitia";
 $route['admin/profile'] = "c_Admin/profile";
 
 $route['admin/jadwal'] = "c_Admin/jadwal";
-$route['admin/jadwal/:any'] = "c_Admin/get_kelompok";
+$route['admin/jadwal/:any'] = "c_Admin/kelompok";
 
 
 $route['crud'] = "examples";

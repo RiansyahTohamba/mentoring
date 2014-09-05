@@ -39,7 +39,8 @@ class Access {
             if($password === $result->password && $result->id_panitia != NULL){                
                 $data = array(
                     'id_akun'=>$result->id_akun,
-                    'username'=>$result->username,                    
+                    'username'=>$result->username, 
+                    'login_admin'=>TRUE,                    
                 );
                 $this->CI->session->set_userdata($data);
                 return TRUE;
@@ -58,6 +59,7 @@ class Access {
                 $data = array(
                     'id_akun'=>$result->id_akun,
                     'username'=>$result->username,                    
+                    'login_peserta'=>TRUE,                    
                 );
                 $this->CI->session->set_userdata($data);
                 return TRUE;
@@ -77,8 +79,8 @@ class Access {
     /*
      * cek apakah sdh login
      */
-    function is_login(){    
-        return (($this->CI->session->userdata('id_akun') ? TRUE : FALSE));
+    function is_login($level){                   
+        return ($this->CI->session->userdata("login_$level") ? TRUE : FALSE);
     }
     /*
      * logout

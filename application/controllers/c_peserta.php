@@ -1,5 +1,13 @@
 <?php
-
+/*
+ * DESKRIPSI
+ * kelas ini merupakan controller gabungan dari tim riansyah degan tim rahmatulloh
+ * 
+ * 
+ * PR PENGEMBANGAN
+ * 1. untuk ke depannya akan coba dipilah mana fungsi yang di gunakan mana yang tidak
+ * 2. semua method pada model 'peserta' di ubah paramater id_akun menjadi id_peserta untuk masalah efisiensi 
+ */
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
@@ -7,16 +15,135 @@ class C_peserta extends CI_Controller {
 
     private $limit = 2;
 
-    function __construct() {
-        parent::__construct();
+    var $username;
+    var $id_peserta;
+    public function __construct() {
+        parent::__construct();        
+        //dari kg rahmat
         $this->load->library('table');
         $this->load->model('m_peserta', '', TRUE);
         $this->load->model('m_mahasiswa', '', TRUE);
         $this->load->model('m_akun', '', TRUE);
         $this->load->helper(array('url'));
+        //dari riansyah        
+        $this->load->helper('form');        
+        $this->id_akun = $this->session->userdata('id_akun');                
+        $this ->id_peserta = $this->session->userdata('id_akun');
+        $this->status_side_bar = $this->m_peserta->cekKontak($this->id_peserta);
+        $this->username = $this->session->userdata('USERNAME');                
+        if ($this->session->userdata('login_peserta') != TRUE) {
+            $this->session->set_flashdata('notif', 'LOGIN GAGAL USERNAME ATAU PASSWORD ANDA SALAH !');
+            redirect('peserta/login');
+        };        
+    }
+
+    private function output($halaman_view = '', $data = array()) {        
+        $data['username'] = $this->username;
+        //paramate show() yakni : halaman view, data yg akan dikirimkan, level-administrasi 
+        //untuk level dapat diganti di pada templates_helper.php difolder helpers
+        show($halaman_view, $data,'peserta');
     }
     
+    public function index() {
+        $this->news();
+    }
 
+    public function news() {
+        $data = array(
+//            'daftar' => $this->penulis->lihat(),            
+        );
+        $this->output('peserta/news', $data, 'peserta');
+//        $this->load->view('beranda', $data);
+    }
+
+    public function profile() {
+        $data = array(
+            'data_profil' => $this->m_peserta->data_profil($this->id_akun),
+        );
+        $this->output('peserta/profile', $data);        
+    }
+
+    public function edit_profile() {
+        if ($this->validasi_profile() == FALSE) {
+            $data_profil = $this->m_peserta->get_data_profil($this->id_akun);
+            $this->output('peserta/edit_profile', $data_profil);            
+        } else {
+            $id_akun = $this->id_akun;
+            $data = array(
+                'nama_mahasiswa' => $this->input->post('nama'),
+                'jenis_kelamin ' => $this->input->post('jenis_kelamin'),
+                'alamat' => $this->input->post('alamat'),
+                'kontak' => $this->input->post('hp'),
+                'kota' => $this->input->post('kota'),
+            );
+            if ($this->m_peserta->edit_profile($id_akun, $data) == TRUE) {
+                redirect('peserta/profile');
+            } else {
+                echo 'gagal memasukkan data';
+            };
+        }
+    }
+
+    private function validasi_profile() {
+        $this->load->library('form_validation');
+        $this->valid = $this->form_validation; //persingkat nama agar lebih mudah digunakan        
+        $this->valid->set_message('required', 'isi terlebih dahulu kolom ini ');
+        $this->valid->set_rules('nama', 'Nama anda', 'required|min_length[3]');
+        $this->valid->set_rules('alamat', 'Alamat anda', 'required|min_length[3]');
+        $this->valid->set_rules('kota', 'Alamat anda', 'required|min_length[3]');
+        $this->valid->set_rules('hp', 'Hp anda', 'required|min_length[3]');
+        return ($this->form_validation->run() == FALSE) ? FALSE : TRUE;
+    }
+
+    public function jadwal($notif = null) {
+        if($this->m_peserta->count_jadwal_saya($this->id_akun) > 0){
+            $jadwal = $this->m_peserta->get_jadwal_saya($this->id_akun); 
+        }else{
+            $jadwal = $this->m_peserta->get_daftar_jadwal($this->id_akun);
+        }
+        $data = array(
+            'notif'=> $notif,
+            'jadwal_saya' => $jadwal,
+            'materi' => $this->m_peserta->get_materi(),
+        );
+        $this->output('peserta/jadwal', $data);        
+    }
+    
+    public function add_jadwal() {
+        $id_jadwal = $this->uri->segment(3);        
+        if($this->m_peserta->add_jadwal($this->id_akun,$id_jadwal) == FALSE){            
+            $notif = 'gagal';
+        }else{
+            $notif = 'berhasil';
+        }                    
+        $this->jadwal($notif);
+    }
+    public function absensi() {
+        $data = array(
+            'presensi' => $this->m_peserta->get_absensi($this->id_akun),
+        );
+        $this->output('peserta/absensi', $data);        
+    }
+
+    public function nilai() {
+        $data = array(
+            'nilai' => $this->m_peserta->get_nilai($this->id_akun),
+        );
+        $this->output('peserta/nilai', $data);        
+    }
+
+    public function evaluasi() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('isi_saran', 'Isi Evaluasi', 'required|xss_clean|min_length[3]|max_length[1000]');        
+        if($this->form_validation->run() == TRUE){
+            if($this->m_peserta->simpan_saran($this->id_akun) != TRUE){                            
+                echo 'gagal dimasukkan ke database';
+            }
+        }
+        $this->output('peserta/evaluasi');               
+    }
+
+    //dari kang rahmat
     function viewCalonPeserta($offset = 0, $order_column = 'nrp', $order_type = 'asc') {
 
         if (empty($offset))

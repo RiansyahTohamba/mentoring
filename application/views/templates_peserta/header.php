@@ -36,8 +36,8 @@
                             
                             <form class="navbar-form navbar-left">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Hi,Peserta!</button>
-                                    <a href="<?php echo site_url('akun/logout');?>"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".keluar"><span class="glyphicon glyphicon-off"></span></button></a>
+                                    <button type="button" class="btn btn-primary">Assala'laikum , <?php echo $username?> !</button>
+                                    <a href="<?php echo site_url('peserta/logout');?>"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".keluar"><span class="glyphicon glyphicon-off"></span></button></a>
                                 </div>
                             </form>
 <!--                            <form class="navbar-form navbar-left" role="search">

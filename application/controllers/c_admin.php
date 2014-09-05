@@ -1,10 +1,17 @@
 <?php
-
+/*
+ * kelas ini (admin) sebenarnya mengurus 
+ * pengelolaan yang dilakukan oleh panitia
+ * agar tidak membingungkan, kelas ini akan 
+ * diganti namanya dengan kelas c_panitia
+ * lakukan pengubahan nama di routes, 
+ * untuk semua nama url admin/.. diganti menjadi panitia/..
+ */
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class C_admin extends CI_Controller {
-
+    var $username;
     function __construct() {
         parent::__construct();
         $this->load->library(array('table'));
@@ -15,13 +22,16 @@ class C_admin extends CI_Controller {
         $this->load->model('m_jadwal', '', TRUE);
         $this->load->model('m_panitia', '', TRUE);
         $this->load->helper(array('url', 'form'));
-        $id_akun = $this->session->userdata('id_akun');        
-        if($id_akun == ""){
-            redirect(site_url('panitia/login'));
-        }        
+        $this->id_akun = $this->session->userdata('id_akun');                
+        $this->username = $this->session->userdata('USERNAME');                
+        if ($this->session->userdata('login_panitia') != TRUE) {
+            $this->session->set_flashdata('notif', 'LOGIN GAGAL USERNAME ATAU PASSWORD ANDA SALAH !');
+            redirect('panitia/login');
+        };    
     }
 
     private function output($halaman_view = '', $data = array()) {
+        $data['username'] = $this->username;
         //paramate show() yakni : halaman view, data yg akan dikirimkan, level-administrasi 
         //untuk level dapat diganti di pada templates_helper.php difolder helpers
         show("admin/$halaman_view", $data, 'admin');
@@ -115,11 +125,19 @@ class C_admin extends CI_Controller {
 
             $this->m_akun->insert($akun);
             if ($status == TRUE) {
-                redirect('admin/pengajar/');
+                redirect('admin/pengajar/notiftambah/sukses');
             } else {
-                echo 'gagal memasukkan data ! '
-                . '<br><a href=' . site_url('admin/pengajar') . '>kembali</a>';
+                redirect('admin/pengajar/notiftambah/gagal');
             }
+        }
+    }
+
+    public function delete_pengajar() {
+        $id = $this->uri->segment(4);
+        if ($this->m_pengajar->delete($id) == TRUE) {
+            redirect('admin/pengajar/notifhapus/sukses');
+        } else {
+            redirect('admin/pengajar/notifhapus/gagal');
         }
     }
 
@@ -129,11 +147,20 @@ class C_admin extends CI_Controller {
         $data['calon_peserta'] = $this->m_mahasiswa->calon_peserta()->result();
         $this->output('v_admin_peserta', $data);
     }
+
     public function jadwal() {
         $data = array(
-//            'jadwal' => $this->m_mahasiswa->get_kotak_jadwal()
-        );        
-        $this->output('v_jadwal', $data);        
+            'kotak_jadwal' => $this->m_jadwal->get_kotak_jadwal()
+        );
+        $this->output('v_jadwal', $data);
+    }
+
+    public function kelompok() {
+        $id_jadwal = $this->uri->segment(3);
+        $data = array(
+            'kotak_jadwal' => $this->m_jadwal->get_kotak_kelompok($id_jadwal)
+        );
+        $this->output('v_jadwal_kelompok', $data);
     }
 
 }

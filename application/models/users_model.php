@@ -1,16 +1,10 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * kelas ini Jangan dihapus dulu , 
+ * pembuatan pola login dengan libraries akan mengacu pada kelas ini
  */
 
-/**
- * Description of Users_model
- *
- * @author muhriansyah
- */
 class Users_model extends CI_Model{
     public $table = 'tb_akun';
     public $primary_key = 'id_akun';

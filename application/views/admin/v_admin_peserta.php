@@ -37,7 +37,8 @@
                                     echo "<td>" . $nama . "</td>";
                                     echo "<td>" . $jurusan . "</td>";
 
-                                    echo "<td><button class='btn btn-outline btn-danger' data-toggle='modal' data-target='.modal-hapus'> Hapus</button>
+                                    echo "<td><button class='btn btn-outline btn-success' data-toggle='modal' data-target='.bs-example-modal-lg'> Edit</button>
+                                        <button class='btn btn-outline btn-danger' data-toggle='modal' data-target='.modal-hapus'> Hapus</button>
                                       <button class='btn btn-outline btn-warning' data-toggle='modal' data-target='.bs-example-modal-lg1'> Detail</button></td>";
                                 };
                                 ?>
@@ -95,6 +96,25 @@
                         </div>
                     </div>
 
+                    <!-- modal edit-->
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Edit Mahasiswa</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- modal hapus-->
                     <div class="modal fade modal-hapus" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

@@ -11,7 +11,10 @@
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <i class="fa fa-calendar fa-fw"></i> Daftar Jadwal
+                    <i class="fa fa-calendar fa-fw"></i>                     
+                        <a class="" href="<?php echo base_url('admin/jadwal');?>"> Daftar Jadwal </a>  >
+                        <a href="#"> Kelompok per-hari </a>
+                    
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">

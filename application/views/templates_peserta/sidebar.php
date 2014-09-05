@@ -10,7 +10,7 @@
                     }
                     ?> >
                         <a href="<?php echo site_url('peserta/news') ?>"><span class="glyphicon glyphicon-home"> News</span></a>
-                    </li>
+                    </li>                    
                     <li <?php
                     if ($this->uri->segment(2) == "profile") {
                         echo 'class="active"';
@@ -18,6 +18,8 @@
                     ?> >
                         <a href="<?php echo site_url('peserta/profile') ?>"><span class="glyphicon glyphicon-user"> Profile</span></a>
                     </li>
+                    <!--side bar belum diaktifkan jika kontak belum di isi-->
+                    <?php if($status_side_bar == TRUE): ?>
                     <li <?php
                     if ($this->uri->segment(2) == "jadwal") {
                         echo 'class="active"';
@@ -45,7 +47,8 @@
                     }
                     ?> >
                         <a href="<?php echo site_url('peserta/evaluasi') ?>"><span class="glyphicon glyphicon-comment"> Evaluasi</span></a>
-                    </li>                                        
+                    </li>     
+                    <?php endif;?>
                 </ul>
             </div>
         </div>                

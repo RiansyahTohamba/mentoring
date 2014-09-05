@@ -50,7 +50,7 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <form class="navbar-form" role="search">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary">Hi,Admin!</button>
+                            <button type="button" class="btn btn-primary">Assala'laikum , <?php echo $username?> !</button>
                             <button type="button" class="btn btn-danger" 
                                     data-toggle="modal" data-target=".modal-keluar"><i class="glyphicon glyphicon-off"></i></button>
 

@@ -135,6 +135,14 @@ class M_pengajar extends CI_Model {
     }
 
     public function delete($id) {
+        //set NULL pada FK id_pementor di tabel tb_jadwal
+        $data['id_pementor'] = NULL;
+        $this->db->where('id_pementor', $id);
+        $this->db->update('tb_jadwal',$data);        
+        //penghapusan pada FK id_pementor di tabel tb_presensi
+        $this->db->where('id_pementor', $id);
+        $this->db->delete('tb_presensi');
+        
         $this->db->where($this->primary_key, $id);
         return ($this->db->delete($this->table)) ? TRUE : FALSE;
     }

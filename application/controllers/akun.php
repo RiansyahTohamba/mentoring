@@ -1,15 +1,11 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of akun
- *
- * @author muhriansyah
+ * kelas ini sudah tidak digunakan
+ * TETAPI ! 
+ * kelas ini JANGAN dihapus dulu, karena kedepannya akan 
+ * di coba untuk membuat libraries login degan mengikuti
+ * pola coding seperti contoh in
  */
 class akun extends CI_Controller {
 
@@ -35,7 +31,7 @@ class akun extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $this->load->view('login');
-            if ($this->access->is_login() == TRUE) {
+            if ($this->access->is_login('peserta') == TRUE) {
                 redirect('peserta');
             }
         } else {
@@ -43,8 +39,11 @@ class akun extends CI_Controller {
         }
     }
 
-    public function logout() {
-        $this->access->logout();
+    function logout() {
+        $this->session->unset_userdata('id_akun');
+        $this->session->unset_userdata('username');        
+        $this->session->unset_userdata('login_peserta');
+        $this->session->set_flashdata('notif','THANK YOU FOR LOGIN IN THIS APP');
         redirect(site_url());
     }
 

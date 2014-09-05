@@ -84,14 +84,7 @@ class C_pengajar extends CI_Controller {
         $this->load->view('v_detail_pengajar', $data);
     }
 
-    public function delete($id) {
-        if ($this->m_pengajar->delete($id) == TRUE) {
-            redirect('admin/pengajar/');
-        } else {
-            echo 'gagal menghapus data ! '
-            . '<br><a href=' . base_url('admin/pengajar') . '>kembali</a>';
-        }
-    }
+    
 
 }
 
