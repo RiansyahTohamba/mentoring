@@ -22,7 +22,7 @@
         <link href=".<?php echo base_url('aset/css/plugins/timeline.css')?>" rel="stylesheet">
 
         <!-- Custom CSS -->
-        <link href="<?php echo base_url('aset/css/sb-admin-2.css')?>" rel="stylesheet">
+        <link href="<?php echo base_url('aset/css/style.css')?>" rel="stylesheet">
 
         <!-- Morris Charts CSS -->
         <link href="<?php echo base_url('aset/css/plugins/morris.css') ?>" rel="stylesheet">
@@ -53,6 +53,29 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="news.php"></a><img src="<?php echo base_url('aset/img/logo.png')?>">
+                    <img src="<?php echo base_url('aset/img/logo.png')?>">
                 </div>
                 <!-- /.navbar-header -->
+                <ul class="nav navbar-top-links navbar-right">
+                <form class="navbar-form" role="search">
+                    <div class="btn-group">
+                      <button type="button" class="btn  navbarakun"><?php echo $this->session->userdata('NAMA') ?></button>
+                      <button type="button" class="btn  btn-warning" data-toggle="modal" data-target="#KeluarModal"><i class="glyphicon glyphicon-off"></i></button>
+                      
+                      <div class="modal fade" id="KeluarModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h4> Anda Yakin Ingin Keluar ?</h4>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+                                    <a href="<?php echo base_url('pengajar/logout'); ?>"><button type="button" class="btn btn-primary">Ya</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>    
+                </form>
+            </ul>
+

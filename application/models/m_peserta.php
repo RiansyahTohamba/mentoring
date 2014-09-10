@@ -50,13 +50,14 @@ class M_peserta extends CI_Model {
      * sehingga maua tidak mau mentee harus memasukkan kontak ASLI
      */
     public function cekKontak($id_peserta){
-        $query = $this->db->query('SELECT kontak FROM tb_mahasiswa,tb_peserta,tb_akun'
-                . ' WHERE tb_akun.id_peserta = ' . $id_peserta                 
-                . 'AND tb_peserta.nrp = tb_mahasiswa.nrp');
-        if($query->row()->kontak != NULL || $query->row()->kontak ==""){
-            return TRUE;
-        }  else {
+        $query = $this->db->query('SELECT kontak FROM tb_mahasiswa,tb_peserta'
+                . ' WHERE id_peserta = ' . $id_peserta                 
+                . ' AND tb_peserta.nrp = tb_mahasiswa.nrp');
+        if($query->row()->kontak == NULL || $query->row()->kontak =="" ||
+                $query->row()->kontak == "none"){
             return FALSE;
+        }  else {
+            return TRUE;
         }
     }
 
@@ -111,6 +112,33 @@ class M_peserta extends CI_Model {
         return $data_profil;
     }
 
+    public function edit_profile_awal($id_akun, $data = array()) {
+  //      $data_akun['password']  = $data['password'];
+ //       $data_mhs = array(
+//                     'jenis_kelamin'  => $data['jenis_kelamin'],
+//                     'kontak'  => $data['kontak'],
+//                    );
+        $password =  $data['password'];
+        $jenis_kelamin  = $data['jenis_kelamin'];
+	$kontak  = $data['kontak'];
+        $query = $this->db->query('SELECT tb_mahasiswa.nrp FROM tb_mahasiswa,tb_peserta,tb_akun '
+                . 'WHERE tb_akun.id_akun = ' . $id_akun .
+                ' AND tb_akun.id_peserta = tb_peserta.id_peserta '
+                . 'AND tb_peserta.nrp = tb_mahasiswa.nrp');
+        $hasil = $query->row();
+//      $this->db->where('nrp', $hasil->nrp);
+//      $this->db->update('tb_mahasiswa', $data_mhs);
+        $status = $this->db->query("UPDATE tb_mahasiswa,tb_akun 
+        		  SET password = '$password', jenis_kelamin = '$jenis_kelamin', kontak = '$kontak' 
+        		  WHERE nrp = '$hasil->nrp' AND username = '$hasil->nrp'");
+//        $status = $this->db->update('tb_akun', $data_akun);
+        if ($status == TRUE) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+    }
+
     public function edit_profile($id_akun, $data = array()) {
         $query = $this->db->query('SELECT tb_mahasiswa.nrp FROM tb_mahasiswa,tb_peserta,tb_akun '
                 . 'WHERE tb_akun.id_akun = ' . $id_akun .
@@ -148,7 +176,7 @@ class M_peserta extends CI_Model {
                     WHERE tb_peserta.id_jadwal = tb_jadwal.id_jadwal
                         AND tb_peserta.id_jadwal = '$id_jadwal$n' "
             );
-            if ($query->num_rows() < 10) {
+            if ($query->num_rows() < 15) { // kuota
                 $id_jadwal = "$id_jadwal$n";
                 break;
             }
@@ -168,7 +196,7 @@ class M_peserta extends CI_Model {
             FROM tb_jadwal,tb_peserta 
             WHERE tb_peserta.id_jadwal = $id_jadwal 
                 AND tb_peserta.id_jadwal = tb_jadwal.id_jadwal");
-        if ($query2->num_rows() > 19) {
+        if ($query2->num_rows() > 14) {
             //menampilkan form_validasi
         } else {
             $data['id_jadwal'] = $this->get_id_jadwal($id_jadwal);
@@ -190,7 +218,7 @@ class M_peserta extends CI_Model {
     }
 
     public function get_daftar_jadwal($id_akun) {
-        $kuota = 100;
+        $kuota = 60;//15 X 4 kelompok
 
         $this->output = '';
         $this->output .= '<tr><th>Hari</th><th>jam</th> <th colspan="2">kuota</th> </tr>';
@@ -341,9 +369,11 @@ class M_peserta extends CI_Model {
         return ($this->db->insert($this->table, $peserta)) ? TRUE : FALSE;
     }
 
-    public function delete($id) {
-        $this->db->where($this->primary_key, $id);        
-        return ($this->db->delete($this->table)) ? TRUE : FALSE;
+    public function delete($nrp) {        
+        $this->db->where('nrp', $nrp);                        
+        $this->db->delete($this->table);
+        $this->db->where('username', $nrp);  
+        return ($this->db->delete('tb_akun')) ? TRUE : FALSE;
     }
 
 }

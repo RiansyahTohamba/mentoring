@@ -1,3 +1,6 @@
+
+
+<!--bagian dalam konten-->
 <footer> 
     <br><br><br><br><br><br><br><hr> 
     <p>&copy; DKM's Research 2014</p>

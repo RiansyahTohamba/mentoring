@@ -14,9 +14,9 @@ if (!defined('BASEPATH'))
 class C_peserta extends CI_Controller {
 
     private $limit = 2;
-
     var $username;
     var $id_peserta;
+    
     public function __construct() {
         parent::__construct();        
         //dari kg rahmat
@@ -27,18 +27,24 @@ class C_peserta extends CI_Controller {
         $this->load->helper(array('url'));
         //dari riansyah        
         $this->load->helper('form');        
-        $this->id_akun = $this->session->userdata('id_akun');                
-        $this ->id_peserta = $this->session->userdata('id_akun');
-        $this->status_side_bar = $this->m_peserta->cekKontak($this->id_peserta);
-        $this->username = $this->session->userdata('USERNAME');                
-        if ($this->session->userdata('login_peserta') != TRUE) {
+        
+        $this->id_akun = $this->session->userdata('id_akun_peserta');                
+        $this->id_peserta = $this->session->userdata('id_peserta');       
+        $this->username = $this->session->userdata('username_peserta');    
+        
+        if ($this->session->userdata('login_peserta') != TRUE ) {
             $this->session->set_flashdata('notif', 'LOGIN GAGAL USERNAME ATAU PASSWORD ANDA SALAH !');
-            redirect('peserta/login');
+            redirect(base_url());
         };        
-    }
+        $this->status_side_bar = $this->m_peserta->cekKontak($this->id_peserta);
+//        $this->status_side_bar = FALSE;   
+        
+        
+        }
 
     private function output($halaman_view = '', $data = array()) {        
         $data['username'] = $this->username;
+        $data['status_side_bar'] = $this->status_side_bar;
         //paramate show() yakni : halaman view, data yg akan dikirimkan, level-administrasi 
         //untuk level dapat diganti di pada templates_helper.php difolder helpers
         show($halaman_view, $data,'peserta');
@@ -63,6 +69,29 @@ class C_peserta extends CI_Controller {
         $this->output('peserta/profile', $data);        
     }
 
+    public function edit_profil_awal() {
+        $this->load->library('form_validation');
+        $this->valid = $this->form_validation; //persingkat nama agar lebih mudah digunakan        
+        $this->valid->set_rules('password', 'Password anda minimal', 'required|min_length[6]');
+        $this->valid->set_rules('hp', 'Hp anda', 'required|min_length[12]');
+        $valid_hp = $this->form_validation->run();          
+        if ($valid_hp == FALSE) {            
+            $this->output('peserta/edit_profil_awal');                                    
+        } else {
+            $id_akun = $this->id_akun;
+            $data = array(
+                'password' => $this->input->post('password'),
+                'jenis_kelamin' => $this->input->post('jenis_kelamin'),                
+                'kontak' => $this->input->post('hp'),                
+            );
+            if ($this->m_peserta->edit_profile_awal($id_akun, $data) == TRUE) {
+                redirect('peserta/profile');
+            } else {
+                echo 'gagal memasukkan data';
+            };
+        }
+    }
+    
     public function edit_profile() {
         if ($this->validasi_profile() == FALSE) {
             $data_profil = $this->m_peserta->get_data_profil($this->id_akun);
@@ -83,7 +112,7 @@ class C_peserta extends CI_Controller {
             };
         }
     }
-
+    
     private function validasi_profile() {
         $this->load->library('form_validation');
         $this->valid = $this->form_validation; //persingkat nama agar lebih mudah digunakan        
@@ -91,7 +120,7 @@ class C_peserta extends CI_Controller {
         $this->valid->set_rules('nama', 'Nama anda', 'required|min_length[3]');
         $this->valid->set_rules('alamat', 'Alamat anda', 'required|min_length[3]');
         $this->valid->set_rules('kota', 'Alamat anda', 'required|min_length[3]');
-        $this->valid->set_rules('hp', 'Hp anda', 'required|min_length[3]');
+        $this->valid->set_rules('hp', 'Hp anda', 'required|min_length[10]');
         return ($this->form_validation->run() == FALSE) ? FALSE : TRUE;
     }
 
@@ -100,6 +129,9 @@ class C_peserta extends CI_Controller {
             $jadwal = $this->m_peserta->get_jadwal_saya($this->id_akun); 
         }else{
             $jadwal = $this->m_peserta->get_daftar_jadwal($this->id_akun);
+        }
+        if($this->uri->segment(3)=='gagal' || $this->uri->segment(3)=='berhasil'){
+            $notif = $this->uri->segment(3);
         }
         $data = array(
             'notif'=> $notif,
@@ -112,11 +144,11 @@ class C_peserta extends CI_Controller {
     public function add_jadwal() {
         $id_jadwal = $this->uri->segment(3);        
         if($this->m_peserta->add_jadwal($this->id_akun,$id_jadwal) == FALSE){            
-            $notif = 'gagal';
+            $notif = 'gagal';            
         }else{
             $notif = 'berhasil';
         }                    
-        $this->jadwal($notif);
+        redirect("peserta/jadwal/$notif");
     }
     public function absensi() {
         $data = array(
@@ -190,40 +222,6 @@ class C_peserta extends CI_Controller {
         $this->load->view('v_calon_peserta', $data);
     }
 
-    public function add() {
-        $nrp = $this->uri->segment(4);
-        $peserta = $this->m_peserta->selectById($nrp)->result();
-        if ($peserta == TRUE) {
-            redirect(site_url('admin/peserta'), 'refresh');
-        } else {
-            $peserta = array(
-                'id_peserta' => null,
-                'nrp' => $nrp,
-                'id_jadwal' => null,
-            );
-            $this->m_peserta->insert($peserta);
-
-            $peserta = $this->m_peserta->selectById($nrp)->result();
-            foreach ($peserta as $peserta) {
-                $id_peserta = $peserta->id_peserta;
-                $nrp_peserta = $peserta->nrp;
-            }
-            
-            $akun = array(
-                'username' => $nrp_peserta,
-                'password' => $nrp_peserta,
-                'id_peserta' => $id_peserta
-            );
-            
-            $status = $this->m_akun->insert($akun);
-            if ($status == TRUE) {
-                redirect(site_url('admin/peserta/'));
-            } else {
-                echo 'gagal memasukkan data !';
-            }
-//            redirect('c_peserta/viewCalonPeserta/add_success/');
-        }
-    }
 
     function view($nrp) {
         $data['title'] = 'peserta detail';
@@ -234,17 +232,6 @@ class C_peserta extends CI_Controller {
         $this->load->view('v_detail_peserta', $data);
     }
 
-    public function delete() {
-        $id = $this->uri->segment(4);
-        if ($this->m_peserta->delete($id) == TRUE) {
-//            buat pesan notif kalau data berhasil dihapus
-//            redirect(site_url('admin/peserta/delete_success'), 'refresh');
-            redirect('admin/peserta');
-        }  else {
-            echo 'data gagal dihapus dari database';
-        }
-    }
+
 
 }
-
-?>

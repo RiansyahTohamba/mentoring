@@ -41,12 +41,11 @@ class M_mahasiswa extends CI_Model {
     }
 
     public function calon_pengajar() {
-        $query = $this->db->query(""
+        return  $this->db->query(""
                         . "SELECT * FROM $this->table "
                         . "WHERE nrp NOT IN (SELECT nrp FROM tb_peserta) "
                             . "AND nrp NOT IN (SELECT nrp FROM tb_pementor) "
-                        . "");
-        return $query->result();
+                        . "");        
     }
     
     public function calon_panitia() {

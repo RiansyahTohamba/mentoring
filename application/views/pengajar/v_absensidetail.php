@@ -34,10 +34,13 @@
                             <button onclick="location.href = '<?php echo base_url('pengajar/absensi/' . substr($this->uri->segment(3), 0, -1) . $lop); ?>'" type="button" class="btn btn-default"><?php echo $lop ?></button>
 <?php endforeach ?>
                     </div>
+                    <button style="float:right;" class="btn btn-success" onclick="location.href = '<?php echo base_url('pengajar/absensitambah/'.substr($this->uri->segment(3), 0, -1)); ?>'"> <span class="glyphicon glyphicon-plus"></span> Tambah Pertemuan</button>
                     <br><br>
                     <div class="alert alert-success" role="alert">
-                        <center><strong>Pertemuan ke.<?php echo substr($this->uri->segment(3), -1); ?> </strong></center>
-                    </div>        
+                    <center><strong>Pertemuan ke.<?php echo substr($this->uri->segment(3), -1); ?> </strong></center>
+                    </div>  
+                    <button style="float:right;" class="btn btn-warning" onclick="location.href = '<?php echo base_url('pengajar/absensiedit/'.$this->uri->segment(3)); ?>'"> <span class="glyphicon glyphicon-cog"></span> Edit Pertemuan</button>
+                    <br><br>
                     <table class="table table-striped">
                         <tr>
                             <th>nrp</th>
@@ -56,12 +59,14 @@
                             <tr>
                                 <th><?php echo $nrp ?></th>
                                 <th><?php echo $nama ?></th>
-                                <th><?php echo $status ?></th>                      
+                                <th><?php if ($status=="hadir") {
+                                    echo "<div style='color:green;'>";
+                                }else {
+                                    echo "<div style='color:red;'>";
+                                }
+                                    echo $status ?></div></th>                      
                             </tr>
-<?php endforeach ?>
-
-
-
+                            <?php endforeach ?>
                     </table>
 
 

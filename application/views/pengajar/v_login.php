@@ -37,7 +37,7 @@
                         <form action="ceklogin" method="post">
                         <table class="table">
                         <tr>
-                                <td><strong style="color: green">Login pengajar</strong></td>
+                                <td><strong style="color: green">Login</strong></td>
                                 <td></td>
                             </tr>
                             <tr>

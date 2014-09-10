@@ -1,6 +1,29 @@
-</div> <!-- span9 dari halaman view-->
+
+
+</div> 
+<!-- col-md-10 dari halaman view-->
+<!--
+ modal logout
+<div class="modal fade modal-keluar" tabindex="-1" role="dialog" 
+     aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4> Anda Yakin Ingin Keluar ?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
+                <a href="<?php echo base_url('panitia/logout') ?>"><button type="button" class="btn btn-primary">Ya</button></a>
+            </div>
+        </div>
+    </div>
+</div>-->
+
 </div> <!-- row-fluid -->
+
 </div> <!-- fluid container -->
+                
+
 <footer> 
     <br><br><br><br><br><br><br><hr> 
     <p>&copy; DKM's Research 2014</p>
@@ -26,5 +49,6 @@
 </script>
 
 </body>
+
 
 </html>

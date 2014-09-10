@@ -63,7 +63,7 @@ class M_Jadwal extends CI_Model {
                             <tr><td> ' . $jam . ' </td> '
                         . '<td> ' . $row->jumlah . '</td> ' .
                         '<td> ' . $jenis_kelamin . '</td>'.                                
-                        '<td> <a href="' . base_url('admin/jadwal/' . $id_jadwal_kelompok) . '"> detail</a></td>                                
+                        '<td> <a href="' . base_url('panitia/jadwal/' . $id_jadwal_kelompok) . '"> detail</a></td>                                
                         </tr>'
                 ;
             }
@@ -108,20 +108,45 @@ class M_Jadwal extends CI_Model {
                 . " AND tb_mahasiswa.nrp = tb_peserta.nrp "
                 . " AND tb_peserta.id_jadwal = '$id_jadwal'"
                 . "");
+        $queryPementor = $this->db->query("SELECT nama_mahasiswa "
+                . " FROM tb_mahasiswa,tb_jadwal,tb_pementor "
+                . "WHERE tb_pementor.id_pementor = tb_jadwal.id_pementor "
+                . " AND tb_pementor.nrp = tb_mahasiswa.nrp "
+                . " AND id_jadwal = '$id_jadwal'");
+
+        if ($queryPementor->num_rows() > 0) {
+            $nama_pementor = $queryPementor->row()->nama_mahasiswa;
+        } else {
+            $nama_pementor = 'Kosong';
+        }
+
         $jumlahMentee = $queryMentee->num_rows();
         foreach ($queryMentee->result() as $row) {
             $output .= "<tr>"
                     . "<td> $row->nrp </td><td>$row->nama_mahasiswa </td> "
                     . "<td> $row->kontak</td>"
-                    
                     . "</tr>";
         }
         if ($jumlahMentee > 0) {
-            $output .= "<tr><td class='h3' colspan='3'><br><br>"
-                    . "Jumlah Mentee : $jumlahMentee </td></tr>";
+            $output .= "<tr><td> <b>Jumlah Mentee </b></td> <td colspan='2'> <b> $jumlahMentee</b></td></tr>"
+                    . "<tr ><td> <b>Pementor </b></td> <td colspan='2'> <b>$nama_pementor </b></td> </tr>"
+                    . "<tr ><td colspan='3'> "
+                    . "<a href='" . base_url('panitia/gantipementor/'.$id_jadwal) . "'> "
+                    . "Ganti pementor "
+                    . "</a> </td> </tr>"
+            ;
         }
         return $output;
     }
+
+    public function ganti_pementor($id_jadwal,$id_pementor) {
+        $status = $this->db->query("UPDATE tb_jadwal,tb_pementor "
+                . "SET tb_jadwal.id_pementor = '$id_pementor' "
+                . "WHERE id_jadwal = '$id_jadwal' "
+                . "AND tb_pementor.id_pementor = '$id_pementor' ");
+        return $status;
+    }
+
 
     function selectPageList($limit, $offset = 0, $order_column = '', $order_type = 'asc') {
         if (empty($order_column) || empty($order_type))

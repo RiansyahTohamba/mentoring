@@ -1,14 +1,14 @@
 <!--awal konten-->
 <div id="page-wrapper">
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="panel panel-default mar lengkung">
                 <h3 class="panel-heading">
-                    Profile Pengajar Mentoring 
+                    Profil Pengajar Mentoring 
                 </h3>
                 <div class="panel-body">                    
                     
-                    <table class="table table-striped">
+                    <table class="table">
                         <?php
                         foreach ($data_profil as $row) {
                             $nrp = $row->nrp;
@@ -43,8 +43,8 @@
 
 
                     </table>
-
-                    <button class="btn btn-md btn-info" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-cog"> Edit </span></button> 
+                    
+                    <button class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-cog"> Edit </span></button> 
                 </div>
                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -87,29 +87,6 @@
             </div>
         </div>
 
-        <div class="col-md-2">
-            <div class="panel panel-default mar lengkung">
-                <div class="panel-heading"><a><?php echo $this->session->userdata('NAMA') ?></a></div>
-                <div class="panel-body">
-                    <a href="" data-toggle="modal" data-target="#KeluarModal"><li>Loguot</li></a>
-
-                    <div class="modal fade" id="KeluarModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <h4> Anda Yakin Ingin Keluar ?</h4>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Tidak</button>
-                                    <a href="<?php echo base_url('pengajar/logout'); ?>"><button type="button" class="btn btn-primary">Ya</button></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </div>

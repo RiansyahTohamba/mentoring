@@ -49,11 +49,13 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
+//versi hosting
+//$db['default']['username'] = 'ululalba_admin';
+//$db['default']['password'] = 'uabroot';
+//$db['default']['database'] = 'ululalba_mentoring'; 
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = 'db_mentoring'; 
-//$db['default']['database'] = 'uab'; //utk web dkm versi lomba
-//$db['default']['database'] = 'test_database';// utk contoh grocery
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

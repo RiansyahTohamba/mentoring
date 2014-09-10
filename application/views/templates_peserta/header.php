@@ -12,62 +12,40 @@
 
         <link href="<?php echo base_url('aset/css/font-awesome.css') ?>" rel="stylesheet">                
         <link href="<?php echo base_url('aset/css/bootstrap.css') ?>" rel="stylesheet">        
-        <link href="<?php echo base_url('aset/css/bootstrap.min.css') ?>" rel="stylesheet">        
+        <link href="<?php echo base_url('aset/css/bootstrap.min.css') ?>" rel="stylesheet">  
+        <link href="<?php echo base_url('aset/css/style.css') ?>" rel="stylesheet">        
+      
 
 
     </head>
     <body>
-
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 20px; background-color: #057e05;">
-            <div class="navbar-header">
+        <nav class="navbar navbar-static-top navpeserta" role="navigation" style="margin-bottom: 20px;">
+                    <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Beranda</a>
+                    <img src="<?php echo base_url('aset/img/logo.png')?>">
                     </div>
-
                     <!--Collect the nav links, forms, and other content for toggling--> 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
                         <ul class="nav navbar-nav navbar-right">
-                            
                             <form class="navbar-form navbar-left">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary">Assala'laikum , <?php echo $username?> !</button>
-                                    <a href="<?php echo site_url('peserta/logout');?>"><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".keluar"><span class="glyphicon glyphicon-off"></span></button></a>
+                                    <button type="button" class="btn btn-primary">Assalamu'alaikum , <?php echo $this->session->userdata('nama_peserta') ?> !</button>
+                                    <a href="<?php echo base_url('peserta/logout') ?>">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#KeluarModal"><span class="glyphicon glyphicon-off"></span></button>
+                                    </a>
                                 </div>
-                            </form>
-<!--                            <form class="navbar-form navbar-left" role="search">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                </div>
-                                <button type="submit" class="btn btn-default">Submit</button>
-                            </form>-->                            
-                            
+                            </form>                                 
                         </ul> 
-            </div>
+                    </div>
         </nav>
-<!--        <div style="height: 100px"> </div>-->
 
-        
-<!--        modal-->
-<div class="modal fade keluar" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-            
-            <div class="modal-header">
-                
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                
-            </div>
-            
-        </div>
-    </div>
-</div>
+                    
+
+
+
+
